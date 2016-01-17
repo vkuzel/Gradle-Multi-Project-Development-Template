@@ -1,0 +1,1 @@
+Gradle multi-project configuration template.

@@ -1,0 +1,9 @@
+include 'core-module'
+include 'module1'
+
+rootProject.children.each { project ->
+    String projectDirName = sprintf("../framework/%s", project.name)
+    project.projectDir = new File(settingsDir, projectDirName)
+    assert project.projectDir.isDirectory()
+    assert project.buildFile.isFile()
+}

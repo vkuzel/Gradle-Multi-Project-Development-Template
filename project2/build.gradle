@@ -1,0 +1,25 @@
+buildscript {
+    ext {
+        springBootVersion = '1.3.1.RELEASE'
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE"
+    }
+}
+
+apply from: '../framework/commonConfiguration.gradle'
+
+dependencies {
+    compile project('module1')
+}
+
+jar {
+    baseName = 'project2'
+    version = '0.0.1-SNAPSHOT'
+}

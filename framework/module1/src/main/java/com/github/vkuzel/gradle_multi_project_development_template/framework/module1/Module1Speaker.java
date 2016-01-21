@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Module1Speaker implements Speaker {
     @Override
-    public void introduce() {
-        System.out.println("I am " + this.getClass().getName());
+    public String getName() {
+        return this.getClass().getName();
     }
 }

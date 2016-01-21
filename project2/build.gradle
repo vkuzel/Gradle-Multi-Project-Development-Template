@@ -17,6 +17,7 @@ apply from: '../framework/commonConfiguration.gradle'
 
 dependencies {
     compile project('module1')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 jar {

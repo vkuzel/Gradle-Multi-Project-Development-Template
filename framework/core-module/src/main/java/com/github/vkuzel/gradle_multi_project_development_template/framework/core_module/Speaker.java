@@ -2,5 +2,5 @@ package com.github.vkuzel.gradle_multi_project_development_template.framework.co
 
 public interface Speaker {
 
-    void introduce();
+    String getName();
 }

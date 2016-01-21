@@ -1,3 +1,4 @@
 dependencies {
     compile project(':core-module')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -3,11 +3,13 @@ package com.github.vkuzel.gradle_multi_project_development_template.framework.co
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @SpringBootApplication
+@ComponentScan("com.github.vkuzel.gradle_multi_project_development_template")
 public class CoreModuleApplication {
 
     @Autowired
@@ -20,6 +22,6 @@ public class CoreModuleApplication {
     @PostConstruct
     public void introduceSpeakers() {
         System.out.println("Speakers introduction: ");
-        allSpeakersInProject.forEach(Speaker::introduce);
+        allSpeakersInProject.forEach(speaker -> System.out.println("I am " + speaker.getName()));
     }
 }

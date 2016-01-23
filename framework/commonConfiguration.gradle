@@ -37,7 +37,3 @@ subprojects {
         }
     }
 }
-
-// TODO What is it good for?
-sourceCompatibility = 1.8
-targetCompatibility = 1.8

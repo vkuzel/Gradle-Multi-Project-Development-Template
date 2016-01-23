@@ -19,4 +19,4 @@ Project2 uses only module1 so it's dependency tree is a bit simpler:
 ```
 Build scripts are flooded with comments explaining why important directives are placed there. There are also links to the Gradle's documentation or other sources of information.
 
-Key ideas behind this project are explained in the article ...
+Key ideas behind this project are explained in the article [Gradle multi-project using cross dependent modules](http://vkuzel.blogspot.cz/2016/01/gradle-multi-project-using-cross.html).

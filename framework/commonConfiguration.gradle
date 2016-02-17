@@ -1,13 +1,3 @@
-// It's not necessary to apply java plugin to root projects because
-// Spring Boot plugin does it by itself.
-//
-// @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/SpringBootPlugin.java
-apply plugin: 'spring-boot'
-
-ext {
-    mainClassName = 'com.github.vkuzel.gradle_multi_project_development_template.framework.core_module.CoreModuleApplication'
-}
-
 repositories {
     mavenCentral()
 }
@@ -18,10 +8,10 @@ repositories {
 // to add Spring Boot plugin and Maven repository to parent project.
 //
 // @see https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:configuration_on_demand
-subprojects {
-    // Subprojects must not have applied Spring Boot plugin because it
-    // duplicates some tasks. So dependency management to Spring Boot project
-    // is extracted here.
+configure(allprojects.findAll {it.name != 'core-module'}) {
+    // Projects except for core-module must not have applied Spring Boot plugin
+    // because this plugin duplicates some tasks. There's plain dependency on
+    // Spring Boot project so other modules can use Spring Boot's libraries.
     apply plugin: "io.spring.dependency-management"
     apply plugin: 'java'
 
@@ -35,5 +25,22 @@ subprojects {
             // project's build.gradle file.
             mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
         }
+    }
+}
+
+// Core module is the module with main class. So it's also the module with
+// Spring Boot plugin applied. Spring Boot plugin provides bootRun task and
+// searches for a main class also.
+project('core-module') {
+    // It's not necessary to apply java plugin here because Spring Boot plugin
+    // does it by itself.
+    //
+    // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/SpringBootPlugin.java
+    //
+    // This is the module with main class so this module is goin
+    apply plugin: 'spring-boot'
+
+    repositories {
+        mavenCentral()
     }
 }

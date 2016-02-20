@@ -1,5 +1,5 @@
-// It's not necessary to apply java plugin to root projects because
-// Spring Boot plugin does it by itself.
+// Spring Boot plugin applies Java plugin on root project. That's why there's
+// no Java plugin in root project.
 //
 // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/SpringBootPlugin.java
 apply plugin: 'spring-boot'
@@ -12,10 +12,11 @@ repositories {
     mavenCentral()
 }
 
-// Because of "The standard project dependencies are supported and makes
-// relevant projects configured. If project A has a compile dependency on
-// project B then building A causes configuration of both projects." we have
-// to add Spring Boot plugin and Maven repository to parent project.
+// "The standard project dependencies are supported and makes relevant projects
+// configured. If project A has a compile dependency on project B then building
+// A causes configuration of both projects." That's why dependency on Spring
+// Boot and Dependency Management plugins has been applied in the root
+// project's build script (in it's buildscript block).
 //
 // @see https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:configuration_on_demand
 subprojects {
@@ -23,7 +24,7 @@ subprojects {
     // duplicates some tasks. So dependency management to Spring Boot project
     // is extracted here.
     apply plugin: "io.spring.dependency-management"
-    apply plugin: 'java'
+    apply plugin: "java"
 
     repositories {
         mavenCentral()
@@ -31,7 +32,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            // Spring Boot version is defined in buildscript block in the root
+            // Spring Boot version is defined in buildscript block of the root
             // project's build.gradle file.
             mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
         }

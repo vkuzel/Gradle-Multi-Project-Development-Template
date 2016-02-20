@@ -1,12 +1,11 @@
-// If your build script uses external dependencies like this one uses
-// spring-boot plugin you need to declare a dependency to the plugin
-// in buildscript closure below.
+// If your build script has some dependencies on plugins you will have to
+// declare these dependencies in root project's buildscript block.
 //
 // @see https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:external_dependencies
 //
 // Unfortunately buildscript block can't be externalized into a script plugin
-// so following code is going to be duplicated in build scripts of all root
-// projects.
+// (commonConfiguration.gradle) so following code is going to be duplicated in
+// build scripts of all root projects.
 //
 // @see https://discuss.gradle.org/t/how-do-i-include-buildscript-block-from-external-gradle-script/7016/2
 buildscript {
@@ -31,10 +30,12 @@ apply from: '../framework/commonConfiguration.gradle'
 dependencies {
     compile project('module1')
     compile project('module2')
-    // Compile dependencies on external libraries like spring-boot are get
-    // transitively from the core module. On the other hand testCompile
-    // dependencies does not work this way so we have to specify them in each
-    // build script separately.
+    // If project A has compile dependency on B and B has compile dependency on
+    // some external project then A will have this external project dependency
+    // on it's classpath too. On the other hand testCompile dependencies does
+    // not work this way. TestCompile dependencies are used only for testing
+    // subproject where is declared. So to be able to use a certain dependency
+    // you need to declare it in every subproject where needed.
     //
     // Anyway it's a good practice to specify external dependencies in every
     // module and not rely on transitive dependencies like this project do.

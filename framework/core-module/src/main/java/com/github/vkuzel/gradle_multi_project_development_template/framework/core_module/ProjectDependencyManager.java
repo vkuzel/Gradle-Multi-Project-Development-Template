@@ -1,7 +1,7 @@
 package com.github.vkuzel.gradle_multi_project_development_template.framework.core_module;
 
 import com.github.vkuzel.gradle_dependency_graph.Node;
-import com.sun.istack.internal.NotNull;
+import com.github.vkuzel.gradle_dependency_graph.Node.Project;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -34,8 +34,7 @@ public class ProjectDependencyManager {
         }
     };
 
-    @NotNull
-    public List<Resource> findIndependentProjectResourcesFirst(@NotNull String pathOnClasspath) {
+    public List<Resource> findIndependentProjectResourcesFirst(String pathOnClasspath) {
         List<Resource> resources;
         try {
             resources = Arrays.asList(resourceResolver.getResources("classpath*:" + pathOnClasspath));
@@ -70,16 +69,18 @@ public class ProjectDependencyManager {
     @PostConstruct
     private void loadProjectDependencies() {
         Resource resource = resourceResolver.getResource("classpath:" + PROJECT_DEPENDENCY_GRAPH_FILE);
+        if (!resource.exists()) {
+            throw new IllegalStateException("Project dependency graph file " + PROJECT_DEPENDENCY_GRAPH_FILE + " is not found." +
+                    " Make sure that `gradle generateDependencyGraph` task has been executed and dependencyGraphPath build property is properly configured.");
+        }
+
         Node dependencyGraph;
         try (
                 InputStream inputStream = resource.getInputStream();
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)
         ) {
             dependencyGraph = (Node) objectInputStream.readObject();
-        } catch (IOException e) {
-            throw new IllegalStateException("Project dependency graph file " + PROJECT_DEPENDENCY_GRAPH_FILE + " cannot be read." +
-                    " Make sure that `gradle generateDependencyGraph` task has been executed and dependencyGraphPath build property is properly configured.", e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
 
@@ -87,59 +88,14 @@ public class ProjectDependencyManager {
     }
 
     private void buildProjectList(Node dependencyGraph) {
-        Project project = new Project(dependencyGraph);
+        Project project = dependencyGraph.getProject();
         independentProjectsFirst.remove(project);
 
         int furtherChildPosition = dependencyGraph.getChildren().stream()
-                .mapToInt(node -> independentProjectsFirst.indexOf(new Project(node))).max().orElse(-1);
+                .mapToInt(node -> independentProjectsFirst.indexOf(node.getProject())).max().orElse(-1);
 
         independentProjectsFirst.add(furtherChildPosition + 1, project);
 
         dependencyGraph.getChildren().forEach(this::buildProjectList);
-    }
-
-    private static class Project { // TODO Move this to the Node class...
-        private final String name;
-        private final String dir;
-
-        private Project(Node node) {
-            this.name = node.getProjectName();
-            this.dir = node.getProjectDir();
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDir() {
-            return dir;
-        }
-
-        @Override
-        public String toString() {
-            return "Project{" +
-                    "name='" + name + '\'' +
-                    ", dir='" + dir + '\'' +
-                    '}';
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Project project = (Project) o;
-
-            if (!name.equals(project.name)) return false;
-            return dir.equals(project.dir);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = name.hashCode();
-            result = 31 * result + dir.hashCode();
-            return result;
-        }
     }
 }

@@ -1,7 +1,9 @@
 ext {
     // Spring Boot Multi Project Plugin adds new task generateDependencyGraph
     // that stores project dependency tree into a file. Following property
-    // holds file's path relative to resources directory of this module.
+    // holds file's path relative to resources directory of root's project. It
+    // has to be stored in root project because the core module can be reused
+    // by several projects.
     dependencyGraphPath = "dependencies.ser"
 }
 

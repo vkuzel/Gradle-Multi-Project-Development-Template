@@ -4,28 +4,35 @@
 // @see https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:external_dependencies
 //
 // Unfortunately buildscript block can't be externalized into a script plugin
-// (commonConfiguration.gradle) so following code is going to be duplicated in
-// build scripts of all root projects.
+// so following code is going to be duplicated in build scripts of all root
+// projects.
 //
 // @see https://discuss.gradle.org/t/how-do-i-include-buildscript-block-from-external-gradle-script/7016/2
 buildscript {
-    ext {
-        springBootVersion = '1.3.1.RELEASE'
-    }
     repositories {
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
-        // In future we will be able to use plugins block instead of
-        // buildscript. But for now we have to add plugin's classpaths.
-        //
-        // @see https://github.com/spring-gradle-plugins/dependency-management-plugin#using-the-plugin
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE"
+        // This project uses Gradle Spring Boot Multi Project Plugin that wraps
+        // the Gradle Spring Boot plugin and adds some more functionality.
+        classpath "com.github.vkuzel:Gradle-Spring-Boot-Multi-Project-Plugin:1.0.0"
     }
 }
 
-apply from: '../framework/commonConfiguration.gradle'
+// Spring Boot Multi Project Plugin adds Maven Central and JitPack repositories
+// to all projects of this multi-project build. So it's not necessary to
+// specify them separately.
+//
+// @see https://github.com/vkuzel/Gradle-Spring-Boot-Multi-Project-Plugin
+
+ext {
+    // You need to specify which sub-project contains SpringBootApplication
+    // annotation so the plugin can apply findMainClass task properly.
+    springBootProject = 'core-module'
+}
+
+apply plugin: 'spring-boot-multi-project'
 
 dependencies {
     compile project('module1')

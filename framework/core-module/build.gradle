@@ -1,3 +1,10 @@
+ext {
+    // Spring Boot Multi Project Plugin adds new task generateDependencyGraph
+    // that stores project dependency tree into a file. Following property
+    // holds file's path relative to resources directory of this module.
+    dependencyGraphPath = "dependencies.ser"
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -18,7 +18,7 @@ public class CoreModuleApplication {
     private List<Speaker> allSpeakersInProject;
 
     @Autowired
-    private ProjectDependencyManager dependencyManager;
+    private ResourceManager dependencyManager;
 
     public static void main(String[] args) {
         SpringApplication.run(CoreModuleApplication.class, args);

@@ -5,6 +5,7 @@ import com.github.vkuzel.gradle_dependency_graph.Node.Project;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class ProjectDependencyManager {
+public class ResourceManager {
 
     private static final String PROJECT_DEPENDENCY_GRAPH_FILE = "dependencies.ser";
     private final PathMatchingResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
@@ -50,7 +51,16 @@ public class ProjectDependencyManager {
     private int getProjectIndex(URL resourceUrl) {
         int index = -1;
         for (Project project : independentProjectsFirst) {
-            if (resourceUrl.getPath().contains(project.getDir())) {
+            String path = resourceUrl.getFile();
+            if (ResourceUtils.isJarURL(resourceUrl)) {
+                int separatorIndex = path.substring(0, path.lastIndexOf(ResourceUtils.JAR_URL_SEPARATOR))
+                        .lastIndexOf(ResourceUtils.JAR_URL_SEPARATOR);
+                if (separatorIndex != -1) {
+                    path = path.substring(separatorIndex);
+                }
+            }
+
+            if (path.contains(project.getDir())) {
                 if (index != -1) {
                     throw new IllegalStateException("Two projects (" + independentProjectsFirst.get(index).getName() + " and " + project.getName()
                             + ") has been found for resource " + resourceUrl.toString() + "!" +

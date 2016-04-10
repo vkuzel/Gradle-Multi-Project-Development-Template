@@ -2,7 +2,7 @@ package com.github.vkuzel.gradle_multi_project_development_template.project1;
 
 import com.github.vkuzel.gradle_multi_project_development_template.framework.core_module.CoreModuleApplication;
 import com.github.vkuzel.gradle_multi_project_development_template.framework.core_module.CoreModuleSpeaker;
-import com.github.vkuzel.gradle_multi_project_development_template.framework.core_module.ProjectDependencyManager;
+import com.github.vkuzel.gradle_multi_project_development_template.framework.core_module.ResourceManager;
 import com.github.vkuzel.gradle_multi_project_development_template.framework.module1.Module1Speaker;
 import com.github.vkuzel.gradle_multi_project_development_template.framework.module2.Module2Speaker;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public class Project1Tests {
     Project1Speaker project1Speaker;
 
     @Autowired
-    ProjectDependencyManager projectDependencyManager;
+    ResourceManager resourceManager;
 
     @Test
     public void testAvailableSpeakers() {
@@ -45,7 +45,7 @@ public class Project1Tests {
 
     @Test
     public void testDependencyManager() throws IOException {
-        List<Resource> resources = projectDependencyManager.findIndependentProjectResourcesFirst("res.txt");
+        List<Resource> resources = resourceManager.findIndependentProjectResourcesFirst("res.txt");
         Assert.assertEquals(4, resources.size());
         Assert.assertTrue(resources.get(0).getURL().toString().endsWith("/framework/core-module/build/resources/main/res.txt"));
         Assert.assertTrue(resources.get(1).getURL().toString().endsWith("/framework/module2/build/resources/main/res.txt"));

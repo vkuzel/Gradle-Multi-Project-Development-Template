@@ -1,18 +1,18 @@
 package com.github.vkuzel.gradle_multi_project_development_template.framework.core_module;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.Resource;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
 @ComponentScan("com.github.vkuzel.gradle_multi_project_development_template")
-public class CoreModuleApplication {
+public class CoreModuleApplication implements CommandLineRunner {
 
     @Autowired
     private List<Speaker> allSpeakersInProject;
@@ -24,8 +24,8 @@ public class CoreModuleApplication {
         SpringApplication.run(CoreModuleApplication.class, args);
     }
 
-    @PostConstruct
-    public void introduceSpeakers() {
+    @Override
+    public void run(String... args) throws Exception {
         System.out.println("Speakers introduction: ");
         allSpeakersInProject.forEach(speaker -> System.out.println("I am " + speaker.getName()));
 

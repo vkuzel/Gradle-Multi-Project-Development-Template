@@ -6,6 +6,7 @@ import com.github.vkuzel.gradle_multi_project_development_template.framework.cor
 import com.github.vkuzel.gradle_multi_project_development_template.framework.module1.Module1Speaker;
 import com.github.vkuzel.gradle_multi_project_development_template.framework.module2.Module2Speaker;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CoreModuleApplication.class)
+@Ignore
 public class Project1Tests {
 
     @Autowired

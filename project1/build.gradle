@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         // This project uses Gradle Spring Boot Multi Project Plugin that wraps
         // the Gradle Spring Boot plugin and adds some more functionality.
-        classpath "com.github.vkuzel:Gradle-Spring-Boot-Multi-Project-Plugin:2.0.0"
+        classpath "com.github.vkuzel:Gradle-Spring-Boot-Multi-Project-Plugin:2.1.0"
     }
 }
 
@@ -41,13 +41,11 @@ dependencies {
     // some external project then A will have this external project dependency
     // on it's classpath too. On the other hand testCompile dependencies does
     // not work this way. TestCompile dependencies are used only for testing
-    // subproject where is declared. So to be able to use a certain dependency
-    // you need to declare it in every subproject where needed.
-    //
-    // Anyway it's a good practice to specify external dependencies in every
-    // module and not rely on transitive dependencies like this project do.
+    // sub-project where is declared. So to be able to use a certain dependency
+    // you need to declare it in every sub-project where needed.
     //
     // @see http://stackoverflow.com/questions/6023188/my-gradle-configuration-does-not-use-the-correct-classpath-during-build/10633623#10633623
+    testCompile project(path: ':core-module', configuration: 'testFixturesUsageCompile')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

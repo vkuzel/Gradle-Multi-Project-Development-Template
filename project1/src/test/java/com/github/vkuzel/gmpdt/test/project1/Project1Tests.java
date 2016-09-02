@@ -1,20 +1,19 @@
 package com.github.vkuzel.gmpdt.test.project1;
 
-import com.github.vkuzel.gmpdt.app.project1.Project1Speaker;
 import com.github.vkuzel.gmpdt.app.core_module.CoreModuleApplication;
 import com.github.vkuzel.gmpdt.app.core_module.CoreModuleSpeaker;
 import com.github.vkuzel.gmpdt.app.core_module.ResourceManager;
 import com.github.vkuzel.gmpdt.app.module1.Module1Speaker;
 import com.github.vkuzel.gmpdt.app.module2.Module2Speaker;
+import com.github.vkuzel.gmpdt.app.project1.Project1Speaker;
 import com.github.vkuzel.gmpdt.framework.test.core_module.TestEnvironmentContext;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {CoreModuleApplication.class, TestEnvironmentContext.class})
+@SpringBootTest(classes = {CoreModuleApplication.class, TestEnvironmentContext.class})
 public class Project1Tests {
 
     private static final Logger log = LoggerFactory.getLogger(Project1Tests.class);

@@ -6,11 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {CoreModuleApplication.class, TestEnvironmentContext.class})
+@SpringBootTest(classes = {CoreModuleApplication.class, TestEnvironmentContext.class})
 public class CoreModuleTests {
 
 	@Autowired
@@ -21,4 +21,11 @@ public class CoreModuleTests {
 		Assert.assertEquals(CoreModuleSpeaker.class.getName(), coreModuleSpeaker.getName());
 	}
 
+	public static void ahoj() {
+		System.out.println("xxx");
+	}
+
+	public static void hello() {
+
+	}
 }

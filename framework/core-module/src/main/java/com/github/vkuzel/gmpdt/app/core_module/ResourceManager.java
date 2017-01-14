@@ -17,7 +17,7 @@ import java.util.*;
 public class ResourceManager {
 
     private static final String PROJECT_DEPENDENCIES_FILE = "dependencies.ser";
-    private final PathMatchingResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
+    private static final PathMatchingResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
 
     private final List<Dependencies> independentProjectsFirst = new ArrayList<>();
     private final Comparator<Resource> INDEPENDENT_PROJECT_RESOURCES_FIRST = (resource1, resource2) -> {

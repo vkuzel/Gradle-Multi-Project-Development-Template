@@ -16,13 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class Project2Tests {
 
     @Autowired
-    CoreModuleSpeaker coreModuleSpeaker;
+    private CoreModuleSpeaker coreModuleSpeaker;
 
     @Autowired
-    Module1Speaker module1Speaker;
+    private Module1Speaker module1Speaker;
 
     @Autowired
-    Project2Speaker project2Speaker;
+    private Project2Speaker project2Speaker;
 
     @Test
     public void testAvailableSpeakers() {

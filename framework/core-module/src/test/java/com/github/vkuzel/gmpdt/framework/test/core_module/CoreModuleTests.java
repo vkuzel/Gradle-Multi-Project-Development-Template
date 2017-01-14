@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CoreModuleTests {
 
 	@Autowired
-	CoreModuleSpeaker coreModuleSpeaker;
+	private CoreModuleSpeaker coreModuleSpeaker;
 
 	@Test
 	public void testAvailableSpeakers() {
